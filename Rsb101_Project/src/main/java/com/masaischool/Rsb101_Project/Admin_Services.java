@@ -2,8 +2,11 @@ package com.masaischool.Rsb101_Project;
 
 import java.util.*;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
+
+import org.hibernate.internal.build.AllowSysOut;
 
 public class Admin_Services {
 //////////////////////////color//////////////
@@ -136,15 +139,35 @@ public static final String ANSI_RED = "\u001B[31m";
 	    System.out.println(ANSI_BLUE+"Enter Instructor_Id"+ANSI_RESET);
 	      int Instructor_Id = sc.nextInt();
 	      sc.nextLine();
+	      if(em.find(Instructor_details.class, Instructor_Id)==null) {
+	    	 System.out.println(ANSI_RED+"No Instructor Available !"+ANSI_RESET);
+	      }else {
+	    	  
+	      
 	      try {
 	    	  ts.begin();
-//	    	  Query que = em.createNativeQuery("Delete from Instructor_details_Assignment_details where Instructor_details_Instructor_Id=:rId");
-//			  que.setParameter("rId",Instructor_Id);
+	    	  Query que = em.createNativeQuery("Delete from Instructor_details_Assignment_details  where Instructor_details_Instructor_Id=:rId");
+			  que.setParameter("rId",Instructor_Id);
+	          
+			  List<Integer> asIds = em.find(Instructor_details.class,Instructor_Id).getList().stream().map(t->t.getAssignment_Id()).collect(Collectors.toList());
+	          Query asq  = em.createNativeQuery("Delete from assignment_details_student_details where assignment_Assignment_Id=:rId");
+	          for(Integer i : asIds) {
+	        	  asq.setParameter("rId",i);
+	        	  asq.executeUpdate();
+	          }
+	          
+	    	  Query qq = em.createNativeQuery("Delete from Assignment_details  where Instructor_Id=:rId");
+			  qq.setParameter("rId",Instructor_Id);
 			  
-	    	  Query qu = em.createNativeQuery("Delete from Instructor_details where Instructor_Id=:rId");
+	    	  
+			  
+	    	  Query qu = em.createQuery("Delete from Instructor_details  where Instructor_Id=:rId");
 			  qu.setParameter("rId",Instructor_Id);
 
-			  if(qu.executeUpdate()>0) {
+			  if(que.executeUpdate()>0 || qq.executeUpdate()>0 || qu.executeUpdate()>0) {
+				que.executeUpdate();
+				qq.executeUpdate();
+				qu.executeUpdate();
 				  System.out.println(ANSI_RED+"Instructor Deleted"+ANSI_RESET);
 			  }else {
 				  System.out.println(ANSI_RED+"somethingWent wrong"+ANSI_RESET);
@@ -156,6 +179,7 @@ public static final String ANSI_RED = "\u001B[31m";
 		}finally {
 			em.close();
 		}
+	      }
    }      
 ////////////////////////////Delete Student////////////////////////////////////////
    static void Delete_Students(Scanner sc){
@@ -165,6 +189,11 @@ public static final String ANSI_RED = "\u001B[31m";
 	    System.out.println(ANSI_BLUE+"Enter Student_Id"+ANSI_RESET);
 	      int Student_Id = sc.nextInt();
 	      sc.nextLine();
+	      if(em.find(Student_details.class,Student_Id)==null) {
+	    	  System.out.println(ANSI_RED+"No Student Available !"+ANSI_RESET);
+	      }else {
+	    	  
+	     
 	      try {
 	    	  ts.begin();
 	    	  if(em.find(Student_details.class,Student_Id).getAssignment().size()==0) {
@@ -189,6 +218,7 @@ public static final String ANSI_RED = "\u001B[31m";
 					  System.out.println(ANSI_RED+"somethingWent wrong"+ANSI_RESET);
 				  }
 	    	  }
+	      
 	    	
 			  ts.commit();
 		      
@@ -197,5 +227,5 @@ public static final String ANSI_RED = "\u001B[31m";
 		}finally {
 			em.close();
 		} 
- }      
+ }      }
 }

@@ -39,10 +39,10 @@ public class App {
             	System.out.println("ENTER : 3 For Instructor Login");
             	System.out.println("ENTER : 4 For Student SignUp");
             	System.out.println("ENTER : 5 For Student Login");
-            	System.out.println("ENTER : 0 For Exit");
+            	System.out.println("ENTER : 0 For Exit"+ANSI_RESET);
             	choice = sc.nextInt();
 			} catch (Exception e) {
-				System.out.println("Enter right Input");
+				System.out.println(ANSI_RED+"Enter right Input"+ANSI_RESET);
 				
 			}finally {
 				
@@ -67,10 +67,10 @@ public class App {
         		MainInterface.StudentLogin(sc);
         		break;
         	case 0:
-        		System.out.println("Thankyou for Testing");
+        		System.out.println(ANSI_GREEN+"Thankyou for Testing"+ANSI_RESET);
         		break;
         		default:
-        			System.out.println("sorry Enter valid Selection");
+        			System.out.println(ANSI_GREEN+"sorry Enter valid Selection !"+ANSI_RESET);
         	}
         	
         }while(choice!=0);
