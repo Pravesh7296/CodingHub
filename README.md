@@ -13,13 +13,20 @@ Log out from the Online Learning System.
 
 ## Features
  The CodingHub system provides the following features:
+ 
+ ### For Admin:
+- Log in to the CodingHub using registered credentials.
+- View a collection of Assignment available in the system.
+- View all Instructor  and Student.
+- Delete Instructor and Student from System.
+- Log out from the CodingHub.
 
 ### For Student/Clients:
 - Register for an account by providing necessary personal information.
 - Log in to the CodingHub using registered credentials.
 - View a collection of Assignment available in the system.
 - Filter Assignment based on dates to find Assignment that match their preferences.
-- done or view Assignmnets to save them for future reference.
+- done and view Assignmnets to save them for future reference.
 - Log out from the CodingHub.
 
 
@@ -27,7 +34,7 @@ Log out from the Online Learning System.
 
 - Register for an admin account by providing necessary information.
 - Log in to the Instructor and admin account using registered credentials.
-- Add new Assignment to the system, including Assignment name, date, and submission.
+- Add new Assignment to the system, including Assignment name, date, and type.
 - Update existing Assignment with new information.
 - Delete Assignment from the system.
 - View the number of Submission received by each Assignment.
